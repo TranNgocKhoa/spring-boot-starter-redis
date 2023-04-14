@@ -1,0 +1,60 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'maven-publish'
+    id 'java-library'
+}
+
+group = 'io.github.tranngockhoa'
+version = '0.0.1'
+sourceCompatibility = '11'
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifactId = rootProject.name
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.data:spring-data-redis'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation "io.lettuce:lettuce-core"
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'org.apache.commons:commons-pool2'
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+jar {
+    enabled = true
+    archiveClassifier.set("")
+}

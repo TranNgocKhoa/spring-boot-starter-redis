@@ -1,0 +1,11 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "spring.cache.redis.runtime-ignore-error",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.tranngockhoa.redis.config.RedisCacheAutoConfiguration$runtimeIgnoreError",
+      "description": "Avoid error when Redis is down or exception happen at runtime."
+    }
+  ]
+}
