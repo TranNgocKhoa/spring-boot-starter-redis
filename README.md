@@ -1,4 +1,4 @@
-# Spring Boot Redis Starter
+# Spring Boot Starter Redis
 
 Spring Redis auto configuration module.
 
