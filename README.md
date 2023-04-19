@@ -1,10 +1,104 @@
 # Spring Boot Redis Starter
 
+Spring Redis auto configuration module.
+
 ## Prerequisite
 - JDK 11
 - Redis
 
 ## Setup local environment
+
+### Install Redis
+
+```shell
+brew install redis
+```
+
+### Setup Redis Sentinel
+
+#### Node 1
+`master.conf` file:
+
+```
+port 7001
+
+requirepass "admin123"
+enable-debug-command yes
+
+logfile "~/redis-sentinel/log/master.log"
+```
+
+`sentinel-1.conf` file:
+```
+port 5001
+sentinel auth-pass redis-master admin123
+sentinel monitor redis-master 127.0.0.1 7003 2
+sentinel down-after-milliseconds redis-master 4000
+sentinel failover-timeout redis-master 2000
+
+logfile "~/redis-sentinel/log/sentinel1.log"
+```
+#### Node 2
+`slave-1.conf` file:
+
+```
+port 7002
+
+masterauth "admin123"
+
+replicaof 127.0.0.1 7001
+
+logfile "~/redis-sentinel/loglog/slave1.log"
+```
+
+`sentinel-2.conf` file:
+```
+port 5002
+sentinel auth-pass redis-master admin123
+sentinel monitor redis-master 127.0.0.1 7002 2
+sentinel down-after-milliseconds redis-master 4000
+sentinel failover-timeout redis-master 2000
+
+logfile "~/redis-sentinel/log/sentinel2.log"
+```
+
+#### Node 3
+`slave-2.conf` file:
+
+```
+port 7003
+
+masterauth "admin123"
+
+replicaof 127.0.0.1 7001
+
+logfile "~/redis-sentinel/loglog/slave2.log"
+```
+
+`sentinel-3.conf` file:
+```
+port 5003
+sentinel auth-pass redis-master admin123
+sentinel monitor redis-master 127.0.0.1 7003 2
+sentinel down-after-milliseconds redis-master 4000
+sentinel failover-timeout redis-master 2000
+
+logfile "~/redis-sentinel/log/sentinel3.log"
+```
+
+#### Start sentinel
+
+`start-sentinel.sh` file:
+
+```shell
+redis-server master.conf &
+redis-server slave-1.conf &
+redis-server slave-2.conf &
+
+redis-server sentinel-1.conf --sentinel &
+redis-server sentinel-2.conf --sentinel &
+redis-server sentinel-3.conf --sentinel &
+```
 
 ## Quick start
 
@@ -92,5 +186,5 @@ Or add following configuration in `application.yml`
 ```yaml
 spring:
     autoconfigure:
-      exclude: RedisCacheAutoConfiguration
+      exclude: io.github.tranngockhoa.redis.config.RedisCacheAutoConfiguration
 ```
