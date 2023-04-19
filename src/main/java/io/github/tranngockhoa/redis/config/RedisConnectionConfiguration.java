@@ -50,11 +50,9 @@ public class RedisConnectionConfiguration {
         List<RedisNode> redisNodeList = redisProperties.getSentinel()
                 .getNodes()
                 .stream()
-                .map(node -> {
-                            String[] nodeArr = node.split(":");
-                            return new RedisNode(nodeArr[0], Integer.parseInt(nodeArr[1]));
-                        }
-                ).collect(Collectors.toList());
+                .map(node -> node.split(":"))
+                .map(nodeArr -> new RedisNode(nodeArr[0], Integer.parseInt(nodeArr[1])))
+                .collect(Collectors.toList());
 
         sentinelConfig.setSentinels(redisNodeList);
 
