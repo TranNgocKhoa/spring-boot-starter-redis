@@ -7,8 +7,8 @@ import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CacheFailoverErrorHandler implements CacheErrorHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CacheFailoverErrorHandler.class);
+public class RuntimeCacheErrorHandler implements CacheErrorHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuntimeCacheErrorHandler.class);
 
     @Override
     public void handleCacheGetError(RuntimeException exception, Cache cache, Object key) {

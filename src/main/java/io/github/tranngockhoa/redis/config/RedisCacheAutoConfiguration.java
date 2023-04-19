@@ -87,7 +87,7 @@ public class RedisCacheAutoConfiguration extends CachingConfigurerSupport {
     @Override
     public CacheErrorHandler errorHandler() {
         if (runtimeIgnoreError) {
-            return new CacheFailoverErrorHandler();
+            return new RuntimeCacheErrorHandler();
         }
         return super.errorHandler();
     }
