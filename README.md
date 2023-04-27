@@ -134,21 +134,23 @@ spring:
     redis:
       time-to-live: 300000
       runtime-ignore-error: false
-  redis:
-    lettuce:
-      pool:
-        max-active: 5
-        min-idle: 5
-        max-wait: 1000
-        max-idle: 10
-    sentinel:
-      master: redis-master
-      password: admin123
-      nodes:
-        - 127.0.0.1:5001
-        - 127.0.0.1:5002
-        - 127.0.0.1:5003
-    database: 14
+  data:
+    redis:
+      lettuce:
+        pool:
+          max-active: 5
+          min-idle: 5
+          max-wait: 1000
+          max-idle: 10
+      sentinel:
+        master: redis-master
+        password: admin123
+        nodes:
+          - 127.0.0.1:5001
+          - 127.0.0.1:5002
+          - 127.0.0.1:5003
+      database: 14
+      ssl: false
 ```
 
 `runtime-ignore-error` is for specifying whether avoid error when Redis is down or exception happen at runtime.
