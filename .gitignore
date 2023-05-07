@@ -37,3 +37,4 @@ out/
 .vscode/
 /redis-config/redis-sentinel/log/
 /redis-config/dump.rdb
+gradle.properties

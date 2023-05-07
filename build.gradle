@@ -11,24 +11,8 @@ version = '0.0.1'
 sourceCompatibility = '17'
 
 java {
+    withJavadocJar()
     withSourcesJar()
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifactId = rootProject.name
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
-                }
-            }
-        }
-    }
 }
 
 repositories {
@@ -57,4 +41,69 @@ tasks.named('test') {
 jar {
     enabled = true
     archiveClassifier.set("")
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = project.hasProperty("osshUserName") ? project.property("osshUserName") : ""
+                password = project.hasProperty("osshPassword") ? project.property("osshPassword") : ""
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'io.github.tranngockhoa'
+            version '0.0.1'
+            artifactId = 'nasus'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'Nasus'
+                description = 'Nasus IoC'
+                url = 'https://github.com/TranNgocKhoa/nasus.git'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'tranngockhoa'
+                        name = 'Tran Ngoc Khoa'
+                        email = 'tranngoc.khoa.spk@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/TranNgocKhoa/nasus.git'
+                    developerConnection = 'scm:git:ssh://github.com/TranNgocKhoa/nasus.git'
+                    url = 'https://github.com/TranNgocKhoa/nasus.git'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+test {
+    useJUnitPlatform()
 }
