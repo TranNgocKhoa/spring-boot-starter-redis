@@ -8,6 +8,8 @@ Spring Redis auto configuration module.
 
 ## Setup local environment
 
+<details><summary>Show setup local environment</summary>
+
 ### Install Redis
 
 ```shell
@@ -99,6 +101,7 @@ redis-server sentinel-1.conf --sentinel &
 redis-server sentinel-2.conf --sentinel &
 redis-server sentinel-3.conf --sentinel &
 ```
+</details>
 
 ## Quick start
 
